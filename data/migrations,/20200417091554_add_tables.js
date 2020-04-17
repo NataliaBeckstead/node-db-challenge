@@ -38,7 +38,7 @@ exports.up = function(knex) {
                     .notNullable()
                     .references('id')
                     .inTable('projects')
-                    .onDelete('RESTRICT')
+                    .onDelete('CASCADE')
                     .onUpdate('CASCADE');
     
                 tbl.integer('resource_id')
@@ -46,7 +46,7 @@ exports.up = function(knex) {
                     .notNullable()
                     .references('id')
                     .inTable('resources')
-                    .onDelete('RESTRICT')
+                    .onDelete('CASCADE')
                     .onUpdate('CASCADE');
     
                 tbl.unique(['project_id', 'resource_id']);
@@ -56,5 +56,9 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema
+    .dropTableIfExists('projects_resources')
+    .dropTableIfExists('tasks')
+    .dropTableIfExists('resources')
+    .dropTableIfExists('projects');
 };
